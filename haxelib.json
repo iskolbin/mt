@@ -1,5 +1,5 @@
 {
-	"name": "mt",
+	"name": "mtprng",
 	"url" : "https://github.com/jasononeil/useless/",
 	"license": "MIT",
 	"tags": ["random", "cross", "mersenne twister"],
