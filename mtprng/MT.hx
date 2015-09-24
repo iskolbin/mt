@@ -58,11 +58,11 @@
    email: m-mat @ math.sci.hiroshima-u.ac.jp (remove space)
 */
 
-package mt;
+package mtprng;
 
 import haxe.ds.Vector;
 
-class MersenneTwister {
+class MT {
 	public static inline var N = 624;
 	public static inline var M = 397;
 	public static inline var MATRIX_A: UInt   = 0x9908b0df;
@@ -78,6 +78,8 @@ class MersenneTwister {
 	public static inline var AH_MASK: UInt		= 0xffff0000;
 	public static inline var AL_MASK: UInt		= 0x0000ffff;
 
+	public static var instance(default,null) = new MT();
+
 	static var mag01 = {
 		var mag = new Vector<UInt>(2);
 		mag[0] = ZERO;
@@ -88,8 +90,8 @@ class MersenneTwister {
 	public var mt(default,null) = new Vector<UInt>( N );
 	public var mti(default,null) = 0;
 
-	public function new( s: UInt ) {
-		init( s );
+	public function new( ?s: UInt ) {
+		init( s == null ? Std.int( haxe.Timer.stamp()) : s );
 	}
 
 	function init( s: UInt ) {
@@ -112,10 +114,10 @@ class MersenneTwister {
 	public function randomUInt(): UInt {
 		var mt: Vector<UInt> = this.mt;
 		var y: UInt;
-		var mag01 = MersenneTwister.mag01;
+		var mag01 = MT.mag01;
 
 		if ( mti >= N ) { 		/* generate N words at one time */
-			if ( mti == N+1 )   /* if init_genrand() has not been called, */
+			if ( mti == N+1 )   /* if init() has not been called, */
 				init( DEFAULT ); 	/* a default initial seed is used */
 
 			for ( kk in 0...N-M ) {
