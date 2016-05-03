@@ -60,8 +60,6 @@
 
 package mtprng;
 
-import haxe.ds.Vector;
-
 class MT {
 	public static inline var N = 624;
 	public static inline var M = 397;
@@ -80,29 +78,26 @@ class MT {
 
 	public static var instance(default,null) = new MT();
 
-	static var mag01 = {
-		var mag = new Vector<UInt>(2);
-		mag[0] = ZERO;
-		mag[1] = MATRIX_A;
-		mag;
-	}
+	static var mag01 = [ZERO, MATRIX_A];
 
-	public var mt(default,null) = new Vector<UInt>( N );
+	public var mt(default,null): Array<UInt>;
 	public var mti(default,null) = 0;
 
 	public function new( ?s: UInt ) {
+		mt = new Array<UInt>();
+		for ( i in 0...N ) mt[i] = 0;
 		init( s == null ? Std.int( haxe.Timer.stamp()) : s );
 	}
 
-	function init( s: UInt ) {
-#if (js||python)
+	public function init( s: UInt ) {
+#if (js||python||lua)
 		mt[0] = s >>> 0;
 #else
 		mt[0] = s & FF_MASK;
 #end
 		for ( j in 1...N ) {
 			var s = (mt[j-1] ^ (mt[j-1] >> 30));
-#if (js||python)
+#if (js||python||lua)
 			mt[j] = ((((((s & AH_MASK) >>> 16) * MULT) << 16) + (s & AL_MASK) * MULT) + j) >>> 0;
 #else
 			mt[j] = (MULT * s + j) & FF_MASK;
@@ -112,7 +107,7 @@ class MT {
 	}
 
 	public function randomUInt(): UInt {
-		var mt: Vector<UInt> = this.mt;
+		var mt = this.mt;
 		var y: UInt;
 		var mag01 = MT.mag01;
 
@@ -142,8 +137,16 @@ class MT {
     y ^= (y << 15) & TEMPER_2;
     y ^= (y >> 18);
 
+#if python
+		return y >>> 0;
+#else
     return y;
+#end
 	}	
+
+	public inline function random( limit: Int ) {
+		return randomUInt() % limit;
+	}
 
 	public inline function randomInt(): Int {
 		var x: Int = randomUInt();
