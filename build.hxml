@@ -1,0 +1,23 @@
+-main mtprng.Test
+-cpp tests/testcpp
+-cmd echo "CPP" && ./tests/testcpp/Test
+
+--next
+-main mtprng.Test
+-neko tests/test.n
+-cmd echo "NEKO" && neko tests/test.n
+
+--next
+-main mtprng.Test
+-js tests/test.js
+-cmd echo "JS" && node tests/test.js
+
+--next
+-main mtprng.Test
+-python tests/test.py
+-cmd echo "PYTHON3" && python3 tests/test.py
+
+--next
+-main mtprng.Test
+-lua tests/test.lua
+-cmd echo "LUA" && lua tests/test.lua

@@ -106,6 +106,56 @@ class MT {
 		mti = N;
 	}
 
+	static inline var SAR: UInt = 19650218;
+	static inline var SBR: UInt = 1664525;
+	static inline var SCR: UInt = 1566083941;
+
+	public static function makeFromArray( initKey: Array<UInt> ) {
+		var i = 1;
+	 	var j = 0;
+		var k = N > initKey.length ? N : initKey.length;
+		var self = new MT( SAR );//init( SAR );
+		var mt = self.mt;
+		while ( k > 0 ) {
+#if (js||python||lua)
+			var s = mt[i-1] ^ (mt[i-1] >> 30);
+			mt[i] = (mt[i]^((((s & AH_MASK) >>> 16) * SBR) << 16) + (mt[i]^((s & AL_MASK) * SBR)) + initKey[j] + j) >>> 0; /* non linear */
+#else
+			var s = mt[i] ^ ((mt[i-1] ^ (mt[i-1] >> 30)) * SBR);
+			mt[i] = (s + initKey[j] + j) & FF_MASK;
+#end
+			i++;
+			j++;
+			if ( i >= N ) {
+				mt[0] = mt[N-1];
+				i = 1;
+			}
+			if (j >= initKey.length ) {
+				j = 0;
+			}
+			k--;
+		}
+		var k = N-1;
+		while ( k > 0 ) {
+#if (js||python||lua)
+			var s = mt[i-1] ^ (mt[i-1] >> 30);
+			mt[i] = (mt[i]^(((s & AH_MASK) >>> 16) << 16) + (mt[i]^((s & AL_MASK)*SCR)) - i) >>> 0; /* non linear */
+#else
+			var s = mt[i] ^ ((mt[i-1] ^ (mt[i-1] >> 30)) * SCR);
+			mt[i] = (s - i) & FF_MASK;
+#end
+			i++;
+			if ( i>= N ) {
+				mt[0] = mt[N-1];
+				i=1;
+			}
+			k--;
+		}
+
+		mt[0] = UPPER_MASK; /* MSB is 1; assuring non-zero initial array */
+		return self;
+	}
+
 	public function randomUInt(): UInt {
 		var mt = this.mt;
 		var y: UInt;
