@@ -439,7 +439,6 @@ class Test {
 			var gints = [mt.randomUInt(), mt.randomUInt(), mt.randomUInt(), mt.randomUInt(), mt.randomUInt()];
 			if (!okUInt( gints, ints )) {
 				trace( '${gints[0]-ints[0]} ${gints[1]-ints[1]} ${gints[2]-ints[2]} ${gints[3]-ints[3]} ${gints[4]-ints[4]}');
-				trace( '${gints[0]} ${ints[1]}' );
 				failed++;	
 			}
 		}
