@@ -4,7 +4,7 @@
 	"license": "MIT",
 	"tags": ["random", "cross", "mersenne twister"],
 	"description": "Mersenne twister implementation",
-	"version": "1.0.3",
+	"version": "1.0.4",
 	"releasenote": "Initial release.",
 	"contributors": ["iskolbin"],
 	"dependencies": {}

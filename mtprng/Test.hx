@@ -407,12 +407,11 @@ class Test {
 	[988064871,3515461600,4089077232,2225147448,1249609188],
 	[2643151863,3896204135,2416995901,1397735321,3460025646]];
 
-	static var INTS: Array<Array<UInt>> = INTS_ARR.map( function(arr: Array<Float>) {
-		return arr.map( function(v: Float) {
-			var x: Int = haxe.Int64.fromFloat( v ).low;
-			return x;
-		});
-	});
+	static function ufloatToInt( v: Float ): UInt {
+		return Std.int( v > 0x7fffffff ? v - 4294967296.0 : v );
+	}
+
+	static var INTS: Array<Array<UInt>> = INTS_ARR.map( function(arr) return arr.map( ufloatToInt )); 
 
 	static function okUInt( a: Array<UInt>, b: Array<UInt> ) {
 		for ( i in 0...a.length ) {
@@ -438,14 +437,14 @@ class Test {
 		for ( ints in INTS ) {
 			var gints = [mt.randomUInt(), mt.randomUInt(), mt.randomUInt(), mt.randomUInt(), mt.randomUInt()];
 			if (!okUInt( gints, ints )) {
-				trace( '${gints[0]-ints[0]} ${gints[1]-ints[1]} ${gints[2]-ints[2]} ${gints[3]-ints[3]} ${gints[4]-ints[4]}');
+				//trace( '${gints[0]-ints[0]} ${gints[1]-ints[1]} ${gints[2]-ints[2]} ${gints[3]-ints[3]} ${gints[4]-ints[4]}');
 				failed++;	
 			}
 		}
 		for ( floats in FLOATS ) {
 			var gfloats = [mt.randomFloat32(),mt.randomFloat32(),mt.randomFloat32(),mt.randomFloat32(),mt.randomFloat32()];
 			if ( !okFloat(gfloats,floats)) {
-				trace( '${mt.randomFloat32()-floats[0]} ${mt.randomFloat32()-floats[1]} ${mt.randomFloat32()-floats[2]} ${mt.randomFloat32()-floats[3]} ${mt.randomFloat32()-floats[4]}');
+				//trace( '${mt.randomFloat32()-floats[0]} ${mt.randomFloat32()-floats[1]} ${mt.randomFloat32()-floats[2]} ${mt.randomFloat32()-floats[3]} ${mt.randomFloat32()-floats[4]}');
 				failed++;
 			}
 		}

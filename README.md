@@ -1,5 +1,5 @@
 # mtprng
-Mersenne twister MT19937 pseudorandom number generator for haXe language
+Mersenne twister MT19937 pseudorandom number generator for Haxe language, tested on **Haxe 3.3**
 
 based on http://www.math.sci.hiroshima-u.ac.jp/~m-mat/MT/emt.html
 and https://gist.github.com/banksean/300494  
@@ -19,10 +19,13 @@ var mt = new mtprng.MT();			// use default seed (haxe.Timer.stamp())
 
 ## Methods
 
-* ``randomUInt()`` -- returns pseudorandom ``UInt`` in range [0,2^32)
-* ``randomInt()`` -- returns pseudorandom ``Int`` in range [-2^31,2^31)
-* ``randomFloat()`` -- returns pseudorandom ``Float`` with 53-bits precision
-* ``randomFloat32()`` -- returns pseudorandom ``Float`` with 32-bits precision
+* `randomUInt()` -- returns pseudorandom `UInt` in range [0,2^32)
+* `randomInt()` -- returns pseudorandom `Int` in range [-2^31,2^31)
+* `randomFloat()` -- returns pseudorandom `Float` with 53-bits precision
+* `randomFloat32()` -- returns pseudorandom `Float` with 32-bits precision
+
+## Make from array key
+* `MT.makeFromArray( initKey: Array<UInt> )`
 
 ## Using static instance
 
@@ -33,7 +36,6 @@ var y = mtprng.MT.instance.randomFloat();
 
 ## Platforms
 
-* cpp, java, js, python, neko -- works, same results
-* as3, swf -- not tested
-* cs -- not compiling
-* php -- wrong results
+* **cpp, cs, java, js, neko, swf**: works, passes all tests
+* **lua, python**: works somehow, passes half of the tests
+* **php**: fails all tests

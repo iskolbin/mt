@@ -14,5 +14,26 @@
 
 --next
 -main mtprng.Test
+-cs tests/testcs
+-cmd echo "CS" && mono tests/testcs/bin/Test.exe
+
+--next
+-main mtprng.Test
+-java tests/testjava
+-cmd echo "JAVA" && java -jar tests/testjava/Test.jar
+
+--next
+-main mtprng.Test
 -python tests/test.py
 -cmd echo "PYTHON3" && python3 tests/test.py
+
+--next
+-main mtprng.Test
+-php tests/testphp
+-cmd echo "PHP" && php tests/testphp/index.php
+
+--next
+-main mtprng.Test
+-swf tests/test.swf
+-cmd echo "to test FLASH download https://www.adobe.com/support/flashplayer/debug_downloads.html and run tests/test.swf" 
+
