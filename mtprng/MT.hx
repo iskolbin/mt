@@ -1,8 +1,9 @@
 /* 
 	 Haxe implementation of MT19937 pseudorandom number generator.
 	 (see authors page http://www.math.sci.hiroshima-u.ac.jp/~m-mat/MT/emt.html)
-	 Working on cpp,js,java,python,neko. Not tested on as3,swf.
-	 Not working on cs (not compiling) and php (wrong results).
+
+	 Tested on Haxe 3.3, correct results for cpp,cs,js,java,swf,neko.
+	 lua and pythons passes about half of the tests, php target returns wrong results.
 
 	 Git repository https://github.com/iskolbin/mt
 	 Written by Ilya Kolbin (iskolbin@gmail.com)
